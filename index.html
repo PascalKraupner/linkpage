@@ -358,6 +358,10 @@
   }
 
   /* ── Footer ── */
+  .root-title {
+    margin-bottom: 20px;
+  }
+
   .tree-footer {
     margin-top: auto;
     padding-top: 60px;
@@ -365,6 +369,20 @@
     font-size: 0.65rem;
     color: var(--text-dim);
     letter-spacing: 0.15em;
+  }
+  .footer-links {
+    margin-top: 12px;
+  }
+  .footer-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-links a:hover {
+    color: var(--phosphor-dim);
+  }
+  .footer-sep {
+    margin: 0 8px;
   }
 
   /* ── Responsive ── */
@@ -411,6 +429,11 @@
 
   <div class="tree-footer">
     <span>sys.links v1.0 — <span id="year"></span></span>
+    <div class="footer-links">
+      <a href="https://www.pascalkraupner.com/imprint" target="_blank" rel="noopener noreferrer">Imprint</a>
+      <span class="footer-sep">·</span>
+      <a href="https://www.pascalkraupner.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+    </div>
   </div>
 </div>
 
@@ -419,7 +442,7 @@
 // ║  CONFIGURE YOUR LINKS HERE                              ║
 // ╚══════════════════════════════════════════════════════════╝
 const links = [
-  { name: "Portfolio",  url: "https://www.pascalkraupner.com", icon: "globe" },
+  // { name: "Portfolio",  url: "https://www.pascalkraupner.com", icon: "globe" },
   { name: "GitHub",     url: "https://github.com/PascalKraupner", icon: "github" },
   { name: "LinkedIn",   url: "https://www.linkedin.com/in/pascal-kraupner/", icon: "linkedin" },
   { name: "X",          url: "https://x.com/pascalkraupner", icon: "x" },
