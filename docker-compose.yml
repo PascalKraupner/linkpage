@@ -1,11 +1,9 @@
-version: "3"
-
 services:
   links:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: links
+    container_name: linkpage
     restart: always
     labels:
       - "traefik.enable=true"
