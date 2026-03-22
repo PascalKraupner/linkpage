@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  links:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: links
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.links.entrypoints=websecure"
+      - "traefik.http.routers.links.rule=Host(`kraupner.me`) || Host(`www.kraupner.me`)"
+      - "traefik.http.routers.links.tls.certresolver=lets-encr"
+      - "traefik.http.middlewares.links-www-redirect.redirectregex.regex=^https://www.kraupner.me/(.*)"
+      - "traefik.http.middlewares.links-www-redirect.redirectregex.replacement=https://kraupner.me/$${1}"
+      - "traefik.http.routers.links.middlewares=links-www-redirect"
+
+networks:
+  default:
+    name: proxy
+    external: true

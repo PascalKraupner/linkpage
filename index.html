@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pascal Kraupner — Links</title>
+<meta name="description" content="Pascal Kraupner's link hub — find me everywhere.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬡</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+  :root {
+    --void: #060610;
+    --void-mid: #0a0a1a;
+    --phosphor: #00ff41;
+    --phosphor-dim: #00cc33;
+    --phosphor-glow: rgba(0, 255, 65, 0.15);
+    --phosphor-glow-strong: rgba(0, 255, 65, 0.4);
+    --node-bg: rgba(6, 6, 16, 0.85);
+    --node-border: rgba(0, 255, 65, 0.25);
+    --node-border-hover: rgba(0, 255, 65, 0.8);
+    --text-primary: #e0ffe8;
+    --text-dim: #5a7a60;
+    --line-color: rgba(0, 255, 65, 0.18);
+    --line-glow: rgba(0, 255, 65, 0.5);
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    background: var(--void);
+    color: var(--text-primary);
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── Grid background ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      linear-gradient(rgba(0,255,65,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,65,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Scanlines ── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.08) 2px,
+      rgba(0, 0, 0, 0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── Ambient glow blobs ── */
+  .ambient {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .ambient--1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(0,255,65,0.07), transparent 70%);
+    top: -10%; left: 20%;
+    animation: ambientDrift1 18s ease-in-out infinite;
+  }
+  .ambient--2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(0,255,65,0.05), transparent 70%);
+    bottom: -5%; right: 10%;
+    animation: ambientDrift2 22s ease-in-out infinite;
+  }
+  .ambient--3 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(0,180,80,0.04), transparent 70%);
+    top: 40%; left: 60%;
+    animation: ambientDrift3 15s ease-in-out infinite;
+  }
+
+  @keyframes ambientDrift1 {
+    0%,100% { transform: translate(0,0); }
+    50% { transform: translate(60px, 40px); }
+  }
+  @keyframes ambientDrift2 {
+    0%,100% { transform: translate(0,0); }
+    50% { transform: translate(-50px, -30px); }
+  }
+  @keyframes ambientDrift3 {
+    0%,100% { transform: translate(0,0); }
+    50% { transform: translate(-30px, 50px); }
+  }
+
+  /* ── SVG line layer ── */
+  .tree-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .tree-lines line {
+    stroke: var(--line-color);
+    stroke-width: 2;
+    filter: drop-shadow(0 0 4px var(--line-glow));
+  }
+  .tree-lines .line-glow {
+    stroke: var(--phosphor);
+    stroke-width: 2;
+    opacity: 0;
+    filter: drop-shadow(0 0 8px var(--phosphor));
+  }
+
+  /* ── Animated data pulse on lines ── */
+  .tree-lines .line-pulse {
+    stroke: var(--phosphor);
+    stroke-width: 3;
+    stroke-dasharray: 8 80;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 6px var(--phosphor));
+    animation: linePulse 3s linear infinite;
+  }
+
+  @keyframes linePulse {
+    0% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -88; }
+  }
+
+  /* ── Container ── */
+  .tree-container {
+    position: relative;
+    z-index: 2;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 60px 20px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  /* ── Root node ── */
+  .root-node {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    animation: fadeInDown 0.8s ease-out both;
+  }
+
+  .root-hex {
+    width: 110px;
+    height: 110px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .root-hex svg.hex-border {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .root-hex svg.hex-border polygon {
+    fill: var(--node-bg);
+    stroke: var(--phosphor-dim);
+    stroke-width: 2;
+    filter: drop-shadow(0 0 12px var(--phosphor-glow-strong));
+    animation: hexPulse 4s ease-in-out infinite;
+  }
+
+  @keyframes hexPulse {
+    0%,100% { filter: drop-shadow(0 0 12px var(--phosphor-glow)); }
+    50% { filter: drop-shadow(0 0 24px var(--phosphor-glow-strong)); }
+  }
+
+  .root-hex .avatar-text {
+    position: relative;
+    z-index: 2;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 2rem;
+    color: var(--phosphor);
+    text-shadow: 0 0 20px var(--phosphor-glow-strong);
+    line-height: 1;
+  }
+
+  .root-name {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    text-shadow: 0 0 20px var(--phosphor-glow);
+  }
+
+  .root-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  /* ── Branch tier ── */
+  .branch-tier {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  /* ── Skill node (link) ── */
+  .skill-node {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text-primary);
+    padding: 20px 28px 18px;
+    border: 1px solid var(--node-border);
+    border-radius: 4px;
+    background: var(--node-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    min-width: 150px;
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    cursor: pointer;
+    animation: fadeInUp 0.6s ease-out both;
+    --delay: 0;
+    animation-delay: var(--delay);
+  }
+
+  .skill-node::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, var(--phosphor-glow), transparent 50%);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+
+  .skill-node::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--phosphor-dim), transparent);
+    border-radius: 2px;
+    opacity: 0.5;
+    transition: all 0.35s ease;
+  }
+
+  .skill-node:hover {
+    border-color: var(--node-border-hover);
+    transform: translateY(-4px) scale(1.03);
+    box-shadow:
+      0 0 20px var(--phosphor-glow),
+      0 8px 32px rgba(0,0,0,0.4),
+      inset 0 0 30px var(--phosphor-glow);
+  }
+  .skill-node:hover::before { opacity: 1; }
+  .skill-node:hover::after { width: 70%; opacity: 1; }
+  .skill-node:hover .node-icon { color: var(--phosphor); text-shadow: 0 0 16px var(--phosphor-glow-strong); }
+  .skill-node:hover .node-label { color: var(--phosphor); }
+
+  /* ── Connector dot on top of node ── */
+  .skill-node .connector-dot {
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 10px;
+    background: var(--phosphor-dim);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--phosphor-glow-strong);
+    z-index: 3;
+  }
+
+  .node-icon {
+    font-size: 1.6rem;
+    line-height: 1;
+    color: var(--phosphor-dim);
+    transition: all 0.35s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+  }
+  .node-icon svg {
+    width: 28px;
+    height: 28px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .node-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+    transition: color 0.35s ease;
+    white-space: nowrap;
+  }
+
+  .node-level {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Footer ── */
+  .tree-footer {
+    margin-top: auto;
+    padding-top: 60px;
+    text-align: center;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .tree-container { padding: 40px 16px 60px; }
+    .root-name { font-size: 1.1rem; }
+    .root-hex { width: 90px; height: 90px; }
+    .root-hex .avatar-text { font-size: 1.6rem; }
+    .branch-tier { flex-direction: column; align-items: center; gap: 18px; }
+    .skill-node { min-width: 200px; width: 100%; max-width: 280px; }
+  }
+
+  /* ── Particle canvas ── */
+  #particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient ambient--1"></div>
+<div class="ambient ambient--2"></div>
+<div class="ambient ambient--3"></div>
+<canvas id="particles"></canvas>
+
+<svg class="tree-lines" id="treeLines"></svg>
+
+<div class="tree-container" id="treeContainer">
+  <div class="root-node" id="rootNode">
+    <div class="root-hex">
+      <svg class="hex-border" viewBox="0 0 110 110">
+        <polygon points="55,5 100,30 100,80 55,105 10,80 10,30" />
+      </svg>
+      <span class="avatar-text">PK</span>
+    </div>
+    <div class="root-name">Pascal Kraupner</div>
+    <div class="root-title">// select a node</div>
+  </div>
+
+  <div class="branch-tier" id="branchTier"></div>
+
+  <div class="tree-footer">
+    <span>sys.links v1.0 — <span id="year"></span></span>
+  </div>
+</div>
+
+<script>
+// ╔══════════════════════════════════════════════════════════╗
+// ║  CONFIGURE YOUR LINKS HERE                              ║
+// ╚══════════════════════════════════════════════════════════╝
+const links = [
+  { name: "Portfolio",  url: "https://www.pascalkraupner.com", icon: "globe" },
+  { name: "GitHub",     url: "https://github.com/kraupner",   icon: "github" },
+  { name: "LinkedIn",   url: "https://linkedin.com/in/pascalkraupner", icon: "linkedin" },
+  { name: "Email",      url: "mailto:hello@pascalkraupner.com", icon: "mail" },
+];
+
+// ── SVG icons (inline, no external deps) ──
+const icons = {
+  globe: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/></svg>`,
+  github: `<svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>`,
+  linkedin: `<svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>`,
+  mail: `<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
+  twitter: `<svg viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>`,
+  youtube: `<svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="currentColor" stroke="none"/></svg>`,
+  instagram: `<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>`,
+  link: `<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`,
+  code: `<svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+  coffee: `<svg viewBox="0 0 24 24"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>`,
+  file: `<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
+  heart: `<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+  terminal: `<svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>`,
+  discord: `<svg viewBox="0 0 24 24"><path d="M20.317 4.369a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.086-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.332-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.086-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.332-.947 2.418-2.157 2.418z" fill="currentColor" stroke="none"/></svg>`,
+};
+
+// ── Render nodes ──
+const tier = document.getElementById('branchTier');
+links.forEach((link, i) => {
+  const a = document.createElement('a');
+  a.href = link.url;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.className = 'skill-node';
+  a.style.setProperty('--delay', `${0.3 + i * 0.12}s`);
+  a.innerHTML = `
+    <div class="connector-dot"></div>
+    <div class="node-icon">${icons[link.icon] || icons.link}</div>
+    <div class="node-label">${link.name}</div>
+    <div class="node-level">lv.${String(i + 1).padStart(2, '0')}</div>
+  `;
+  tier.appendChild(a);
+});
+
+// ── Draw SVG connecting lines ──
+function drawLines() {
+  const svg = document.getElementById('treeLines');
+  const container = document.getElementById('treeContainer');
+  const root = document.getElementById('rootNode');
+  const nodes = document.querySelectorAll('.skill-node');
+
+  const containerRect = container.getBoundingClientRect();
+  const scrollX = window.scrollX;
+  const scrollY = window.scrollY;
+
+  // Set SVG to cover the full container
+  svg.setAttribute('width', containerRect.width);
+  svg.setAttribute('height', containerRect.height);
+  svg.style.left = containerRect.left + scrollX + 'px';
+  svg.style.top = containerRect.top + scrollY + 'px';
+
+  svg.innerHTML = '';
+
+  const rootRect = root.getBoundingClientRect();
+  const rootX = rootRect.left + rootRect.width / 2 - containerRect.left;
+  const rootY = rootRect.top + rootRect.height - containerRect.top;
+
+  nodes.forEach((node) => {
+    const nodeRect = node.getBoundingClientRect();
+    const dotX = nodeRect.left + nodeRect.width / 2 - containerRect.left;
+    const dotY = nodeRect.top - containerRect.top;
+
+    // Background line
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', rootX);
+    line.setAttribute('y1', rootY);
+    line.setAttribute('x2', dotX);
+    line.setAttribute('y2', dotY);
+    svg.appendChild(line);
+
+    // Animated pulse line
+    const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    pulse.setAttribute('x1', rootX);
+    pulse.setAttribute('y1', rootY);
+    pulse.setAttribute('x2', dotX);
+    pulse.setAttribute('y2', dotY);
+    pulse.classList.add('line-pulse');
+    // Vary animation delay per line
+    pulse.style.animationDelay = `${Math.random() * 2}s`;
+    svg.appendChild(pulse);
+  });
+}
+
+// Draw on load and resize
+window.addEventListener('load', () => { setTimeout(drawLines, 800); });
+window.addEventListener('resize', drawLines);
+
+// ── Particles ──
+(function particles() {
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let w, h;
+  const dots = [];
+  const COUNT = 40;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  for (let i = 0; i < COUNT; i++) {
+    dots.push({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 1.5 + 0.5,
+      a: Math.random() * 0.4 + 0.1,
+    });
+  }
+
+  function frame() {
+    ctx.clearRect(0, 0, w, h);
+    for (const d of dots) {
+      d.x += d.vx;
+      d.y += d.vy;
+      if (d.x < 0) d.x = w;
+      if (d.x > w) d.x = 0;
+      if (d.y < 0) d.y = h;
+      if (d.y > h) d.y = 0;
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0,255,65,${d.a})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// ── Year ──
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
