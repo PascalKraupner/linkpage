@@ -123,6 +123,11 @@
     height: 100%;
     pointer-events: none;
     z-index: 1;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .tree-lines.lines-visible {
+    opacity: 1;
   }
   .tree-lines line {
     stroke: var(--line-color);
@@ -532,18 +537,32 @@ function drawLines() {
   });
 }
 
-// Draw on load, redraw once entrance animations and webfonts have settled
-// (positions measured mid-animation or pre-font-swap are stale), and on
-// any resize or container layout change (e.g. nodes wrapping).
-window.addEventListener('load', () => {
-  setTimeout(drawLines, 800);
-  setTimeout(drawLines, 2000);
-});
-window.addEventListener('resize', drawLines);
-if (document.fonts) {
-  document.fonts.ready.then(() => setTimeout(drawLines, 50));
+// Node positions are only final once webfonts have swapped in and the
+// entrance animations have finished, so draw exactly once after both,
+// fade the lines in, and from then on redraw on layout changes.
+let linesReady = false;
+
+function revealLines() {
+  drawLines();
+  document.getElementById('treeLines').classList.add('lines-visible');
+  linesReady = true;
 }
-new ResizeObserver(() => drawLines()).observe(document.getElementById('treeContainer'));
+
+const lastNode = tier.lastElementChild;
+const animationsDone = new Promise((resolve) => {
+  const fallback = setTimeout(resolve, 2500);
+  lastNode?.addEventListener('animationend', () => {
+    clearTimeout(fallback);
+    resolve();
+  }, { once: true });
+});
+const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
+
+Promise.all([animationsDone, fontsReady]).then(revealLines);
+
+window.addEventListener('resize', () => { if (linesReady) drawLines(); });
+new ResizeObserver(() => { if (linesReady) drawLines(); })
+  .observe(document.getElementById('treeContainer'));
 
 // ── Particles ──
 (function particles() {
