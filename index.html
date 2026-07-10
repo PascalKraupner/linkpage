@@ -532,9 +532,18 @@ function drawLines() {
   });
 }
 
-// Draw on load and resize
-window.addEventListener('load', () => { setTimeout(drawLines, 800); });
+// Draw on load, redraw once entrance animations and webfonts have settled
+// (positions measured mid-animation or pre-font-swap are stale), and on
+// any resize or container layout change (e.g. nodes wrapping).
+window.addEventListener('load', () => {
+  setTimeout(drawLines, 800);
+  setTimeout(drawLines, 2000);
+});
 window.addEventListener('resize', drawLines);
+if (document.fonts) {
+  document.fonts.ready.then(() => setTimeout(drawLines, 50));
+}
+new ResizeObserver(() => drawLines()).observe(document.getElementById('treeContainer'));
 
 // ── Particles ──
 (function particles() {
